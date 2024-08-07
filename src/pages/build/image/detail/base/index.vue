@@ -57,10 +57,6 @@ export default {
           value: 'AMD',
         },
         {
-          name: '合同金额',
-          value: '5,000,000元',
-        },
-        {
           name: '镜像仓库',
           value: 'hangzhou.aliyun.resgistry.com',
         },
