@@ -1,6 +1,7 @@
 {
   "name": "@tencent/tdesign-vue-starter",
   "version": "0.6.2",
+  "lintOnSave": false,
   "scripts": {
     "dev:mock": "vite --open --mode mock",
     "dev": "vite --open --mode development",
@@ -10,11 +11,6 @@
     "build:site": "vite build --mode site",
     "site:preview": "npm run build && cp -r dist _site",
     "preview": "vite preview",
-    "lint": "eslint --ext .vue,.js,.jsx,.ts,.tsx ./ --max-warnings 0",
-    "lint:fix": "eslint --ext .vue,.js,jsx,.ts,.tsx ./ --max-warnings 0 --fix",
-    "stylelint": "stylelint src/**/*.{html,vue,sass,less}",
-    "stylelint:fix": "stylelint --cache --fix src/**/*.{html,vue,vss,sass,less}",
-    "prepare": "husky install",
     "test": "echo \"no test specified,work in process\"",
     "test:coverage": "echo \"no test:coverage specified,work in process\""
   },
@@ -68,21 +64,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,vue,ts,tsx}": [
-      "prettier --write",
-      "npm run lint:fix"
-    ],
-    "*.{html,vue,vss,sass,less}": [
-      "npm run stylelint:fix"
-    ]
   }
 }

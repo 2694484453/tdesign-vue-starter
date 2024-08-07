@@ -54,5 +54,6 @@ export default ({ mode }) => {
         },
       },
     },
+    lintOnSave: false
   };
 };

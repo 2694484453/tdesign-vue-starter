@@ -3,11 +3,12 @@ import VueRouter from 'vue-router';
 import baseRouters from './modules/base';
 import componentsRouters from './modules/components';
 import othersRouters from './modules/others';
+import pageRouters from './modules/page';
 
 const env = import.meta.env.MODE || 'development';
 
 // 存放动态路由
-export const asyncRouterList = [...baseRouters, ...componentsRouters, ...othersRouters];
+export const asyncRouterList = [...baseRouters, ...componentsRouters, ...othersRouters, ...pageRouters ];
 
 // 存放固定的路由
 const defaultRouterList = [
