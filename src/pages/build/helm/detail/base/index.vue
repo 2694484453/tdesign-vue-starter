@@ -38,7 +38,7 @@ export default {
       baseInfoData: [
         {
           name: 'chart名称',
-          value: '总部办公用品采购项目',
+          value: 'spring-boot-demo',
         },
         {
           name: '状态',
