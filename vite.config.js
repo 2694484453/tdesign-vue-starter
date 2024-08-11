@@ -18,7 +18,6 @@ export default ({ mode }) => {
         '@': path.resolve(__dirname, './src'),
       },
     },
-
     css: {
       preprocessorOptions: {
         less: {
@@ -26,7 +25,6 @@ export default ({ mode }) => {
         },
       },
     },
-
     plugins: [
       createVuePlugin({
         jsx: true,
@@ -37,14 +35,12 @@ export default ({ mode }) => {
       }),
       createSvgPlugin(),
     ],
-
     build: {
       cssCodeSplit: false,
     },
-
     server: {
       host: '0.0.0.0',
-      port: 3001,
+      port: 3000,
       proxy: {
         '/api': {
           // 用于开发环境下的转发请求
@@ -52,8 +48,15 @@ export default ({ mode }) => {
           target: 'https://service-exndqyuk-1257786608.gz.apigw.tencentcs.com',
           changeOrigin: true,
         },
+        '/prod-api': {
+          // 用于开发环境下的转发请求
+          // 更多请参考：https://vitejs.dev/config/#server-proxy
+          target: 'http://localhost:9099', // 'https://service-exndqyuk-1257786608.gz.apigw.tencentcs.com',
+          rewrite: (path) => path.replace("/api", ''),
+          changeOrigin: true,
+        },
       },
     },
-    lintOnSave: false
+    lintOnSave:false
   };
 };

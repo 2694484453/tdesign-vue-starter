@@ -1,3 +1,4 @@
+/*
 {
   "extends": ["airbnb-base", "prettier", "plugin:@typescript-eslint/recommended", "plugin:vue/essential"],
   "env": {
@@ -63,7 +64,8 @@
       }
     },
     {
-      "files": ["src/*", "*.js"],
+      "files": ["src*/
+/*", "*.js"],
       "rules": {
         "no-var-requires": 0,
         "no-console": 0,
@@ -74,3 +76,4 @@
     }
   ]
 }
+*/

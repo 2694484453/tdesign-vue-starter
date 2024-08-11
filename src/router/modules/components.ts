@@ -171,5 +171,5 @@ export default [
         meta: { title: '系统维护页' },
       },
     ],
-  },
+  }
 ];

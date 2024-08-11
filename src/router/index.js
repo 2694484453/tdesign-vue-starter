@@ -4,11 +4,13 @@ import baseRouters from './modules/base';
 import componentsRouters from './modules/components';
 import othersRouters from './modules/others';
 import pageRouters from './modules/page';
+// 域名
+import domainRouters from './modules/domain';
 
 const env = import.meta.env.MODE || 'development';
 
 // 存放动态路由
-export const asyncRouterList = [...baseRouters, ...componentsRouters, ...othersRouters, ...pageRouters ];
+export const asyncRouterList = [...baseRouters, ...componentsRouters, ...othersRouters,...domainRouters, ...pageRouters ];
 
 // 存放固定的路由
 const defaultRouterList = [
