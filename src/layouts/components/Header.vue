@@ -160,11 +160,11 @@ export default Vue.extend({
     },
   },
   mounted() {
-    const userInfo = this.$cookies.get('userInfo');
-    if (userInfo) {
-      this.userInfo.userName = userInfo.userName;
+    const userName = this.$cookies.get('username');
+    if (userName) {
+      this.userInfo.userName = userName;
     }else {
-      this.userInfo.userName = '未登录';
+      this.userInfo.userName = '未知';
     }
   },
   methods: {

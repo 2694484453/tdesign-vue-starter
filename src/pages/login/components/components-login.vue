@@ -140,7 +140,8 @@ export default Vue.extend({
             this.$message.success(res.data.message);
             // 存入cookie
             // this.$cookies.set('token', res.data.data.token);
-            this.$cookies.set("userInfo", res.data.result)
+            this.$cookies.set("username",this.formData.account)
+            this.$cookies.set("token",res.data.token)
             this.$router.push("/").catch(err => {
             });
           } else {

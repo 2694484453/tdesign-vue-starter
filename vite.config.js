@@ -8,7 +8,7 @@ import path from 'path';
 const CWD = process.cwd();
 
 export default ({ mode }) => {
-  const { VITE_BASE_URL } = loadEnv(mode, CWD);
+  const { VITE_BASE_URL, VUE_APP_BASE_API} = loadEnv(mode, CWD);
 
   return {
     base: VITE_BASE_URL,
@@ -42,17 +42,17 @@ export default ({ mode }) => {
       host: '0.0.0.0',
       port: 3000,
       proxy: {
+        // '/api': {
+        //   // 用于开发环境下的转发请求
+        //   // 更多请参考：https://vitejs.dev/config/#server-proxy
+        //   target: 'https://service-exndqyuk-1257786608.gz.apigw.tencentcs.com',
+        //   changeOrigin: true,
+        // },
         '/api': {
           // 用于开发环境下的转发请求
           // 更多请参考：https://vitejs.dev/config/#server-proxy
-          target: 'https://service-exndqyuk-1257786608.gz.apigw.tencentcs.com',
-          changeOrigin: true,
-        },
-        '/prod-api': {
-          // 用于开发环境下的转发请求
-          // 更多请参考：https://vitejs.dev/config/#server-proxy
           target: 'http://localhost:9099', // 'https://service-exndqyuk-1257786608.gz.apigw.tencentcs.com',
-          rewrite: (path) => path.replace("/api", ''),
+          rewrite: (path) => path.replace(/^\/api/, ''),
           changeOrigin: true,
         },
       },

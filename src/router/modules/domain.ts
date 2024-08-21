@@ -1,4 +1,4 @@
-import {HeartIcon} from 'tdesign-icons-vue';
+import {HeartIcon,InternetIcon} from 'tdesign-icons-vue';
 import Layout from '@/layouts/index.vue';
 
 export default [
@@ -8,7 +8,7 @@ export default [
     name: 'domain',
     component: Layout,
     redirect: '/domain/base',
-    meta: {title: '域名管理', icon: HeartIcon},
+    meta: {title: '域名管理', icon: InternetIcon},
     children: [
       {
         path: 'base',
