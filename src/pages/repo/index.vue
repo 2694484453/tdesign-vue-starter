@@ -11,11 +11,6 @@
         :style="{ marginBottom: '8px' }"
       >
         <t-row justify="space-between">
-          <div class="left-operation-container">
-            <t-button @click="handleSetupContract"> 新建端点</t-button>
-            <t-button variant="base" theme="default" :disabled="!selectedRowKeys.length"> 导出配置</t-button>
-            <p v-if="!!selectedRowKeys.length" class="selected-count">已选{{ selectedRowKeys.length }}项</p>
-          </div>
           <t-col :span="3">
             <t-form-item label="名称" name="name">
               <t-input v-model="formData.name" :style="{ width: '200px' }" placeholder="请输入内容"/>
@@ -129,37 +124,59 @@ export default Vue.extend({
       value: 'first',
       columns: [
         {
+          title: 'ID',
+          align: 'left',
+          width: 100,
+          ellipsis: true,
+          colKey: 'ID',
+          fixed: 'left',
+        },
+        {
           title: '名称',
           align: 'left',
-          width: 200,
+          width: 230,
           ellipsis: true,
-          colKey: 'name',
+          colKey: 'Repository',
           fixed: 'left',
         },
         {
-          title: '类型',
-          width: 200,
+          title: '版本',
+          width: 120,
           ellipsis: true,
           fixed: 'left',
-          colKey: 'type',
+          colKey: 'Tag',
         },
         {
-          title: '状态',
-          colKey: 'status',
-          width: 100, cell:
-            {col: 'status'}
+          title: '大小',
+          width: 100,
+          ellipsis: true,
+          fixed: 'left',
+          colKey: 'Size',
         },
         {
-          title: '标签',
+          title: 'Blob大小',
+          width: 100,
+          ellipsis: true,
+          fixed: 'left',
+          colKey: 'BlobSize',
+        },
+        {
+          title: '平台类型',
+          width: 150,
+          ellipsis: true,
+          fixed: 'left',
+          colKey: 'Platform',
+        },
+        {
+          title: '时长',
+          colKey: 'CreatedSince',
+          width: 150,
+        },
+        {
+          title: '创建时间',
           width: 200,
           ellipsis: true,
-          colKey: 'labels',
-        },
-        {
-          title: '端点',
-          width: 200,
-          ellipsis: true,
-          colKey: "targets"
+          colKey: "CreatedAt"
         },
         {
           align: 'left',
@@ -271,7 +288,7 @@ export default Vue.extend({
       this.getList(this.formData);
     },
     getTypeList() {
-      this.$request.get("/monitor/typeList").then(res => {
+      this.$request.get("/imageRepo/typeList").then(res => {
         this.typeList = res.data.data
       }).catch((err) => {
 
@@ -280,7 +297,7 @@ export default Vue.extend({
     getList() {
       this.dataLoading = true;
       this.$request
-        .get('/monitor/list',{
+        .get('/imageRepo/list',{
           params: this.formData
         }).then((res) => {
         if (res.data.code === 200) {

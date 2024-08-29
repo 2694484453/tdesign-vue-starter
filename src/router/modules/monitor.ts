@@ -16,6 +16,12 @@ export default [
         component: () => import('@/pages/monitor/index.vue'),
         meta: {title: '监控列表'},
       },
+      {
+        path: 'add',
+        name: "MonitorAdd",
+        component: () => import('@/pages/monitor/form/base/index.vue'),
+        meta: {title: '新增监控'},
+      }
     ],
   }
 ]

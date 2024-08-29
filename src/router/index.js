@@ -7,11 +7,11 @@ import pageRouters from './modules/page';
 // 域名
 import domainRouters from './modules/domain';
 import monitorRouters from "@/router/modules/monitor";
-
+import repoRouters from  "@/router/modules/repo";
 const env = import.meta.env.MODE || 'development';
 
 // 存放动态路由
-export const asyncRouterList = [...baseRouters, ...componentsRouters, ...othersRouters,...domainRouters, ...pageRouters, ...monitorRouters ];
+export const asyncRouterList = [...baseRouters, ...componentsRouters, ...othersRouters,...domainRouters, ...pageRouters, ...monitorRouters, ...repoRouters ];
 
 // 存放固定的路由
 const defaultRouterList = [
