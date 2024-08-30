@@ -7,14 +7,20 @@ export default [
     path: '/repo',
     name: 'repo',
     component: Layout,
-    redirect: '/repo/base',
-    meta: {title: '仓库管理', icon: RelativityIcon},
+    //redirect: '/repo/base',
+    meta: {title: '仓库中心', icon: RelativityIcon},
     children: [
       {
-        path: 'base',
-        name: 'MonitorBase',
-        component: () => import('@/pages/repo/index.vue'),
+        path: 'image',
+        name: 'ImageBase',
+        component: () => import('@/pages/repo/image/index.vue'),
         meta: {title: '镜像列表'},
+      },
+      {
+        path: 'helm',
+        name: 'HelmBase',
+        component: () => import('@/pages/repo/helm/index.vue'),
+        meta: {title: 'helm列表'},
       }
     ],
   }

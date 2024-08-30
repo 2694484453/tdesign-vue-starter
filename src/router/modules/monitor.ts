@@ -7,13 +7,19 @@ export default [
     path: '/monitor',
     name: 'monitor',
     component: Layout,
-    redirect: '/monitor/base',
+    //redirect: '/monitor/base',
     meta: {title: '监控中心', icon: PreciseMonitorIcon},
     children: [
       {
+        path: 'dashboard',
+        name: 'DashboardBase',
+        component: () => import('@/pages/monitor/index.vue'),
+        meta: {title: '监控视图'},
+      },
+      {
         path: 'base',
         name: 'MonitorBase',
-        component: () => import('@/pages/monitor/index.vue'),
+        component: () => import('@/pages/monitor/list/index.vue'),
         meta: {title: '监控列表'},
       },
       {

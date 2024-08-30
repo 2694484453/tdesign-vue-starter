@@ -1,5 +1,7 @@
-https://localhost:{$PORT} {
+http://localhost:{$PORT} {
  root * /var/www/html
- reverse_proxy {$PREFIX_PATH} {$PROXY}
+ handle_path {$PREFIX_PATH}/* {
+ 	reverse_proxy {$PROXY}
+ }
  file_server
 }

@@ -19,7 +19,7 @@ export default {
     return {
       prefix,
       loading: true,
-      frameSrc: 'http://ecs.gpg123.vip:8080',
+      frameSrc: 'http://server.gpg123.vip:9093',
       settingStore: { ...STYLE_CONFIG },
       getWrapStyle: `height: ${window.innerHeight}px`,
     };

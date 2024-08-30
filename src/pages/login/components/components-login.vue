@@ -86,7 +86,6 @@
 import Vue from 'vue';
 import QrcodeVue from 'qrcode.vue';
 import {UserIcon, LockOnIcon, BrowseOffIcon, BrowseIcon, RefreshIcon} from 'tdesign-icons-vue';
-import {login} from "@/api/login";
 
 const INITIAL_DATA = {
   phone: '',
@@ -133,18 +132,24 @@ export default Vue.extend({
     },
     async onSubmit({validateResult}) {
       if (validateResult === true) {
-        await this.$store.dispatch('user/login', this.formData);
-        login(this.formData).then((res) => {
+        const data = {
+          userName: this.formData.account,
+          passWord: this.formData.password
+        }
+        await this.$store.dispatch('user/login', data);
+        this.$request.post('/login', data).then((res) => {
           console.log(res)
           if (res.data.code === 200) {
-            this.$message.success(res.data.message);
             // 存入cookie
             // this.$cookies.set('token', res.data.data.token);
-            this.$cookies.set("username",this.formData.account)
-            this.$cookies.set("token",res.data.token)
-            localStorage.setItem("ACCESS_TOKEN",res.data.token)
-            this.$router.push("/").catch(err => {
-            });
+            this.$cookies.set("username", this.formData.account)
+            this.$cookies.set("token", res.data.token)
+            localStorage.setItem("ACCESS_TOKEN", res.data.token)
+            this.$message.success("登录成功")
+            setTimeout(()=>{
+              this.$router.push("/").catch(err => {
+              });
+            },2000)
           } else {
             this.$message.error(res.data.message);
           }

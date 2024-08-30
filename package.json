@@ -6,7 +6,7 @@
     "dev:mock": "vite --open --mode mock",
     "dev": "vite --open --mode development",
     "dev:linux": "vite --mode development",
-    "build:pord": "vite --mode ",
+    "build:pord": "vite build --mode prod",
     "build:development": "vite build --mode development",
     "build:test": "vite build --mode test",
     "build": "vite build --mode release",
