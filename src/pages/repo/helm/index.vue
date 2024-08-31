@@ -58,27 +58,11 @@
           :headerAffixedTop="true"
           :headerAffixProps="{ offsetTop: offsetTop, container: getContainer }"
         >
-          <template #status="{ row }">
-            <t-tag v-if="row.status === CONTRACT_STATUS.FAIL" theme="danger" variant="light">审核失败</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.AUDIT_PENDING" theme="warning" variant="light">待审核</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.EXEC_PENDING" theme="warning" variant="light">待履行</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.EXECUTING" theme="success" variant="light">履行中</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.FINISH" theme="success" variant="light">已完成</t-tag>
+          <template #urls="{ row }">
+            <a>https://{{row.urls[0]}}</a>
           </template>
-          <template #contractType="{ row }">
-            <p v-if="row.contractType === CONTRACT_TYPES.MAIN">审核失败</p>
-            <p v-if="row.contractType === CONTRACT_TYPES.SUB">待审核</p>
-            <p v-if="row.contractType === CONTRACT_TYPES.SUPPLEMENT">待履行</p>
-          </template>
-          <template #paymentType="{ row }">
-            <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.PAYMENT" class="payment-col">
-              付款
-              <trend class="dashboard-item-trend" type="up"/>
-            </p>
-            <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.RECEIPT" class="payment-col">
-              收款
-              <trend class="dashboard-item-trend" type="down"/>
-            </p>
+          <template #created="{ row }">
+            <p>{{new Date(row.created).toLocaleString()}}</p>
           </template>
           <template #op="slotProps">
             <a class="t-button-link" @click="handleClickDetail()">详情</a>
@@ -124,59 +108,52 @@ export default Vue.extend({
       value: 'first',
       columns: [
         {
-          title: 'ID',
-          align: 'left',
-          width: 100,
-          ellipsis: true,
-          colKey: 'ID',
-          fixed: 'left',
-        },
-        {
           title: '名称',
           align: 'left',
-          width: 230,
+          width: 150,
           ellipsis: true,
-          colKey: 'Repository',
+          colKey: 'name',
           fixed: 'left',
         },
         {
           title: '版本',
-          width: 120,
+          width: 80,
           ellipsis: true,
           fixed: 'left',
-          colKey: 'Tag',
+          colKey: 'version',
         },
         {
-          title: '大小',
-          width: 100,
+          title: '描述',
+          width: 200,
           ellipsis: true,
           fixed: 'left',
-          colKey: 'Size',
+          colKey: 'description',
         },
         {
-          title: 'Blob大小',
-          width: 100,
+          title: '类型',
+          width: 80,
           ellipsis: true,
           fixed: 'left',
-          colKey: 'BlobSize',
-        },
-        {
-          title: '平台类型',
-          width: 150,
-          ellipsis: true,
-          fixed: 'left',
-          colKey: 'Platform',
-        },
-        {
-          title: '时长',
-          colKey: 'CreatedSince',
-          width: 150,
+          colKey: 'type',
         },
         {
           title: '创建时间',
+          width: 120,
+          ellipsis: true,
+          fixed: 'left',
+          colKey: 'created',
+        },
+        {
+          title: '校验码',
+          width: 100,
+          ellipsis: true,
+          colKey: "digest"
+        },
+        {
+          title: '地址',
           width: 200,
           ellipsis: true,
-          colKey: "CreatedAt"
+          colKey: "urls"
         },
         {
           align: 'left',
