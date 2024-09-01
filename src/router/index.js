@@ -1,15 +1,20 @@
 import VueRouter from 'vue-router';
 import proxy from '@/config/host';
 import baseRouters from './modules/base';
+// 个人
 import userInfoRouters from "@/router/modules/userinfo";
 import componentsRouters from './modules/components';
 import othersRouters from './modules/others';
-import pageRouters from './modules/page';
+import pageRouters from './modules/build';
 // 域名
 import domainRouters from './modules/domain';
+// 监控
 import monitorRouters from "@/router/modules/monitor";
+// 告警
 import alertRouters from "@/router/modules/alert";
+// 仓库
 import repoRouters from "@/router/modules/repo";
+// traefik
 import traefikRouters from "@/router/modules/traefik";
 const env = import.meta.env.MODE || 'development';
 // 存放动态路由

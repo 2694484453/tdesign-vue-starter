@@ -229,6 +229,7 @@ export default {
     },
     onReset() {
       this.$message.warning('取消新建');
+      this.$emit('transfer',"list")
     },
     onSubmit({ validateResult }) {
       if (validateResult === true) {
