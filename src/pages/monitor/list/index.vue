@@ -12,7 +12,7 @@
       >
         <t-row justify="space-between">
           <div class="left-operation-container">
-            <t-button @click="handleSetupContract"> 新建端点</t-button>
+            <t-button @click="handleSetupContract">新建端点</t-button>
             <t-button variant="base" theme="default" :disabled="!selectedRowKeys.length"> 导出配置</t-button>
             <p v-if="!!selectedRowKeys.length" class="selected-count">已选{{ selectedRowKeys.length }}项</p>
           </div>
@@ -63,30 +63,8 @@
           :headerAffixedTop="true"
           :headerAffixProps="{ offsetTop: offsetTop, container: getContainer }"
         >
-          <template #status="{ row }">
-            <t-tag v-if="row.status === CONTRACT_STATUS.FAIL" theme="danger" variant="light">审核失败</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.AUDIT_PENDING" theme="warning" variant="light">待审核</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.EXEC_PENDING" theme="warning" variant="light">待履行</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.EXECUTING" theme="success" variant="light">履行中</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.FINISH" theme="success" variant="light">已完成</t-tag>
-          </template>
-          <template #contractType="{ row }">
-            <p v-if="row.contractType === CONTRACT_TYPES.MAIN">审核失败</p>
-            <p v-if="row.contractType === CONTRACT_TYPES.SUB">待审核</p>
-            <p v-if="row.contractType === CONTRACT_TYPES.SUPPLEMENT">待履行</p>
-          </template>
-          <template #paymentType="{ row }">
-            <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.PAYMENT" class="payment-col">
-              付款
-              <trend class="dashboard-item-trend" type="up"/>
-            </p>
-            <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.RECEIPT" class="payment-col">
-              收款
-              <trend class="dashboard-item-trend" type="down"/>
-            </p>
-          </template>
           <template #op="slotProps">
-            <a class="t-button-link" @click="handleClickDetail()">详情</a>
+            <a class="t-button-link" @click="handleClickDetail(slotProps)">详情</a>
             <a class="t-button-link" @click="handleClickDelete(slotProps)">删除</a>
           </template>
         </t-table>
@@ -128,6 +106,14 @@ export default Vue.extend({
       selectedRowKeys: [1, 2],
       value: 'first',
       columns: [
+        {
+          title: 'ID',
+          align: 'left',
+          width: 50,
+          ellipsis: true,
+          colKey: 'id',
+          fixed: 'left',
+        },
         {
           title: '名称',
           align: 'left',
@@ -222,17 +208,20 @@ export default Vue.extend({
     rehandleChange(changeParams, triggerAndData) {
       console.log('统一Change', changeParams, triggerAndData);
     },
-    handleClickDetail() {
-      this.$router.push('/detail/base');
+    handleClickDetail(row: { id: any, type: any }) {
+      //this.$router.push('/detail/base');
+     // console.log("id",row.rowIndex)
+      this.$emit('transfer', "detail", row)
     },
     handleSetupContract() {
-      this.$router.push('/monitor/add');
+      //this.$router.push('/monitor/add');
+      this.$emit('transfer', "form")
     },
-    handleClickDelete(row: { rowIndex: any,type: any }) {
+    handleClickDelete(row: { rowIndex: any, type: any }) {
       this.deleteIdx = row.rowIndex;
       this.deleteType = row.type;
       this.confirmVisible = true;
-      console.log("this",this.deleteType)
+      console.log("this", this.deleteType)
     },
     onConfirmDelete() {
       // 真实业务请发起请求
@@ -244,14 +233,14 @@ export default Vue.extend({
       }
       this.confirmVisible = false;
       // 请求删除
-      this.$request.delete("/monitor/delete",{
+      this.$request.delete("/monitor/delete", {
         params: {
           index: this.deleteIdx,
           type: this.deleteType
         }
-      }).then(res=>{
+      }).then(res => {
         this.$message.success(res.data.msg);
-      }).catch(err=>{
+      }).catch(err => {
 
       })
 
@@ -280,7 +269,7 @@ export default Vue.extend({
     getList() {
       this.dataLoading = true;
       this.$request
-        .get('/monitor/list',{
+        .get('/monitor/list', {
           params: this.formData
         }).then((res) => {
         if (res.data.code === 200) {
@@ -305,7 +294,7 @@ export default Vue.extend({
 </script>
 
 <style lang="less" scoped>
-@import 'variables';
+@import '@/style/variables';
 
 .payment-col {
   display: flex;

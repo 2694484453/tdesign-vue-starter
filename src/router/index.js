@@ -13,8 +13,6 @@ import repoRouters from "@/router/modules/repo";
 import traefikRouters from "@/router/modules/traefik";
 const env = import.meta.env.MODE || 'development';
 // 存放动态路由
-// 判断当前环境
-
 export const asyncRouterList = (proxy[env].NAME  === "development" ? [...baseRouters, ...componentsRouters, ...othersRouters, ...userInfoRouters, ...domainRouters, ...pageRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters] : [...baseRouters, ...domainRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters]);
 
 // 存放固定的路由
@@ -28,11 +26,11 @@ const defaultRouterList = [
     path: '*',
     redirect: '/dashboard/base',
   },
-  {
-    path: '/monitor/add',
-    name: 'monitorAdd',
-    component: () => import('@/pages/monitor/form/base/index.vue'),
-  },
+  // {
+  //   path: '/monitor/add',
+  //   name: 'monitorAdd',
+  //   component: () => import('@/pages/monitor/form/base/dashboard.vue'),
+  // },
   ...asyncRouterList,
 ];
 

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import proxy from '../config/host';
-
+import {message} from 'tdesign-vue';
+import Router from "@/router";
 const env = import.meta.env.MODE || 'development';
 
 const API_HOST = env === 'mock' ? '/' : proxy[env].API; // 如果是mock模式 就不配置host 会走本地Mock拦截
@@ -36,14 +37,24 @@ instance.interceptors.request.use(config => {
   }
 )
 
+//拦截响应
 instance.interceptors.response.use(
   (response) => {
-    if (response.status === 200) {
+    if (response.data.code === 200) {
       const {data} = response;
       if (data.code === CODE.REQUEST_SUCCESS) {
         return data;
       }
       return response;
+    }
+    if (response.data.code === 401) {
+        message.error("无效的会话，或者会话已过期，请重新登录。").then(r => {
+          setTimeout(()=>{
+            Router.push("/login").then(r => {
+
+            })
+          },2000)
+      })
     }
   },
   (err) => {

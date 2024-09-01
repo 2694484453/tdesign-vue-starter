@@ -48,7 +48,7 @@ export default [
         //   {
         //     path: "form",
         //     name: "helmForm",
-        //     component: () => import('@/pages/build/helm/form/index.vue'),
+        //     component: () => import('@/pages/build/helm/form/dashboard.vue'),
         //     meta: { title: "新建镜像" }
         //   }
         // ]

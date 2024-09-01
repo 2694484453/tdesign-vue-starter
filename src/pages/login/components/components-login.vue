@@ -23,7 +23,7 @@
           :type="showPsw ? 'text' : 'password'"
           clearable
           key="password"
-          placeholder="请输入登录密码：admin"
+          placeholder="请输入登录密码：admin123"
         >
           <template #prefix-icon>
             <lock-on-icon/>
@@ -90,7 +90,7 @@ import {UserIcon, LockOnIcon, BrowseOffIcon, BrowseIcon, RefreshIcon} from 'tdes
 const INITIAL_DATA = {
   phone: '',
   account: 'admin',
-  password: 'admin',
+  password: 'admin123',
   verifyCode: '',
   checked: false,
 };
