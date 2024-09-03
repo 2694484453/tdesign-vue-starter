@@ -31,11 +31,6 @@ const defaultRouterList = [
     path: '*',
     redirect: '/dashboard/base',
   },
-  // {
-  //   path: '/monitor/add',
-  //   name: 'monitorAdd',
-  //   component: () => import('@/pages/monitor/form/base/dashboard.vue'),
-  // },
   ...asyncRouterList,
 ];
 

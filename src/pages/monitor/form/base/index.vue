@@ -141,14 +141,12 @@ export default {
         }).catch(err => {
 
         })
-
       }
     },
     getTypeList() {
       this.$request.get("/monitor/typeList").then(res => {
         this.typeList = res.data.data
       }).catch((err) => {
-
       })
     }
   },

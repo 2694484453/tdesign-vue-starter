@@ -13,13 +13,13 @@ export default [
       {
         path: 'image',
         name: 'ImageBase',
-        component: () => import('@/pages/repo/image/index.vue'),
+        component: () => import('@/pages/repo/image/list/index.vue'),
         meta: {title: '镜像列表'},
       },
       {
         path: 'helm',
         name: 'HelmBase',
-        component: () => import('@/pages/repo/helm/index.vue'),
+        component: () => import('@/pages/repo/helm/list/index.vue'),
         meta: {title: 'helm列表'},
       }
     ],

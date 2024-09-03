@@ -1,10 +1,19 @@
 <template>
   <div>
     <t-card class="list-card-container" :bordered="false">
+      <t-form
+        ref="form"
+        :data="formData"
+        :label-width="80"
+        colon
+        @reset="onReset"
+        @submit="onSubmit"
+        :style="{ marginBottom: '8px' }"
+      >
       <t-row justify="space-between">
         <div class="left-operation-container">
-          <t-button @click="handleSetupContract"> 新建镜像</t-button>
-          <t-button variant="base" theme="default" :disabled="!selectedRowKeys.length"> 导出镜像</t-button>
+          <t-button @click="handleSetupContract">新建</t-button>
+          <t-button variant="base" theme="default" :disabled="!selectedRowKeys.length"> 导出</t-button>
           <p v-if="!!selectedRowKeys.length" class="selected-count">已选{{ selectedRowKeys.length }}项</p>
         </div>
         <t-input v-model="searchValue" class="search-input" placeholder="请输入你需要搜索的内容" clearable>
@@ -17,6 +26,7 @@
           <t-button type="reset" variant="base" theme="default"> 重置</t-button>
         </t-col>
       </t-row>
+      </t-form>
       <div class="table-container">
         <t-table
           :columns="columns"
@@ -40,10 +50,11 @@
             <t-tag v-if="row.status === CONTRACT_STATUS.EXECUTING" theme="success" variant="light">构建中</t-tag>
             <t-tag v-if="row.status === CONTRACT_STATUS.FINISH" theme="success" variant="light">构建成功</t-tag>
           </template>
-          <template #contractType="{ row }">
+          <template #repo="{ row }">
             <p v-if="row.contractType === CONTRACT_TYPES.MAIN">AMD</p>
             <p v-if="row.contractType === CONTRACT_TYPES.SUB">ARM</p>
             <p v-if="row.contractType === CONTRACT_TYPES.SUPPLEMENT">其他</p>
+            <p>{{row.repo}}/{{row.namespace}}/{{row.name}}:{{row.version}}</p>
           </template>
           <template #paymentType="{ row }">
             <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.PAYMENT" class="payment-col">
@@ -55,7 +66,6 @@
               <trend class="dashboard-item-trend" type="down"/>
             </p>
           </template>
-
           <template #op="slotProps">
             <a class="t-button-link" @click="handleClickSuccess()">执行</a>
             <a class="t-button-link" @click="handleClickDetail()">详情</a>
@@ -105,35 +115,40 @@ export default Vue.extend({
         {
           title: '名称',
           align: 'left',
-          width: 120,
+          width: 100,
           ellipsis: true,
           colKey: 'name',
           fixed: 'left',
         },
         {
           title: '类型',
-          width: 120,
+          width: 80,
           ellipsis: true,
           colKey: 'type',
         },
         {
-          title: '命名空间',
-          width: 120,
+          title: '仓库',
+          width: 200,
           ellipsis: true,
-          colKey: 'namespace',
+          colKey: 'repo',
+        },
+        {
+          title: '备注',
+          width: 100,
+          ellipsis: true,
+          colKey: 'remark',
         },
         {
           title: '创建时间',
-          width: 180,
+          width: 120,
           ellipsis: true,
           colKey: 'createTime',
         },
         {
           title: '修改时间',
-          width: 180,
+          width: 120,
           ellipsis: true,
-          colKey: '' +
-            'updateTime',
+          colKey: 'updateTime',
         },
         {
           align: 'left',
