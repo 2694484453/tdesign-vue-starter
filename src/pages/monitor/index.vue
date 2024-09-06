@@ -2,8 +2,8 @@
   <div>
     <ListBase v-show="type === 'list'" @transfer="changeKey"/>
     <FormBase v-show="type === 'form'" @transfer="changeKey"/>
-    <EditBase v-show="type === 'edit'" :row="row"  @transfer="changeKey"/>
-    <DetailBase v-show="type === 'detail'" :row="row" @transfer="changeKey"/>
+    <EditBase v-show="type === 'edit'" :rowData="rowData"  @transfer="changeKey"/>
+    <DetailBase v-show="type === 'detail'" :rowData="rowData" @transfer="changeKey"/>
   </div>
 </template>
 <script>
@@ -22,14 +22,14 @@ export default {
   data() {
     return {
       type: "list",
-      row: Object
+      rowData: Object
     };
   },
   methods: {
-    changeKey(key, row) {
-      console.log("key:id", key, row)
+    changeKey(key, rowData) {
+      console.log("key:id", key, rowData)
       this.type = key
-      this.row = row.row
+      this.rowData = rowData
     }
   }
 }

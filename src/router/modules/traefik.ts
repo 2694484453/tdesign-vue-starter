@@ -12,7 +12,7 @@ export default [
         path: 'dashboard',
         name: 'DashboardBase',
         component: () => import('@/pages/traefik/index.vue'),
-        meta: {title: '监控视图'},
+        meta: {title: '监控面板'},
       },
       {
         path: "add",
@@ -23,7 +23,7 @@ export default [
     ],
   },
   {
-    path: '/traefik-cluster',
+    path: '/traefik-cloud',
     name: 'traefik',
     component: Layout,
     meta: {title: 'traefik管理(云原生版)', icon: RectangleIcon},
@@ -31,13 +31,13 @@ export default [
       {
         path: 'dashboard',
         name: 'DashboardBase',
-        component: () => import('@/pages/traefik/index.vue'),
-        meta: {title: '监控视图'},
+        component: () => import('@/pages/traefik-cloud/index.vue'),
+        meta: {title: '监控面板'},
       },
       {
         path: "add",
         name: 'AddBase',
-        component: () => import("@/pages/traefik/list/index.vue"),
+        component: () => import("@/pages/traefik-cloud/list/index.vue"),
         meta: {title: '配置列表'},
       }
     ]
