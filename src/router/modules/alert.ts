@@ -1,4 +1,4 @@
-import {CaretDownIcon} from 'tdesign-icons-vue';
+import {NotificationIcon} from 'tdesign-icons-vue';
 import Layout from '@/layouts/index.vue';
 
 export default [
@@ -7,7 +7,7 @@ export default [
     path: '/alert',
     name: 'alert',
     component: Layout,
-    meta: {title: '告警中心', icon: CaretDownIcon},
+    meta: {title: '告警中心', icon: NotificationIcon},
     children: [
       {
         path: 'dashboard',

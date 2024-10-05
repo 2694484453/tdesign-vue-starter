@@ -12,35 +12,15 @@
       >
         <t-row justify="space-between">
           <div class="left-operation-container">
-            <t-button @click="handleSetupContract">添加端点</t-button>
-            <t-button variant="base" theme="default" :disabled="!selectedRowKeys.length"> 导出配置</t-button>
+            <t-button @click="handleSetupContract">添加集群</t-button>
+            <t-button variant="base" theme="default" :disabled="!selectedRowKeys.length">导出配置</t-button>
             <p v-if="!!selectedRowKeys.length" class="selected-count">已选{{ selectedRowKeys.length }}项</p>
           </div>
-          <t-col :span="3">
-            <t-form-item label="名称" name="name">
-              <t-input v-model="formData.name" :style="{ width: '200px' }" placeholder="请输入内容"/>
-            </t-form-item>
-          </t-col>
-          <t-col :span="3">
-            <t-form-item label="类型" name="type">
-              <t-select
-                v-model="formData.type"
-                :style="{ width: '200px' }"
-                placeholder="请选择类型"
-                class="demo-select-base"
-                clearable
-              >
-                <t-option v-for="(item, index) in typeList" :key="index" :value="item" :label="item">
-                  {{ item }}
-                </t-option>
-              </t-select>
-            </t-form-item>
-          </t-col>
-          <!--        <t-input v-model="searchValue" class="search-input" placeholder="请输入你需要搜索的内容" clearable>-->
-          <!--          <template #suffix-icon>-->
-          <!--            <search-icon size="20px"/>-->
-          <!--          </template>-->
-          <!--        </t-input>-->
+          <t-input v-model="searchValue" class="search-input" placeholder="请输入你需要搜索的内容" clearable>
+            <template #suffix-icon>
+              <search-icon size="20px"/>
+            </template>
+          </t-input>
           <t-col :span="2" class="operation-container">
             <t-button theme="primary" type="submit" :style="{ marginLeft: '8px' }"> 查询</t-button>
             <t-button type="reset" variant="base" theme="default"> 重置</t-button>
@@ -63,9 +43,32 @@
           :headerAffixedTop="true"
           :headerAffixProps="{ offsetTop: offsetTop, container: getContainer }"
         >
-          <template #op="{row}">
-            <a class="t-button-link" @click="handleClickDetail(row)">详情</a>
-            <a class="t-button-link" @click="handleClickDelete(row)">删除</a>
+          <template #status="{ row }">
+            <t-tag v-if="row.status === CONTRACT_STATUS.FAIL" theme="danger" variant="light">审核失败</t-tag>
+            <t-tag v-if="row.status === CONTRACT_STATUS.AUDIT_PENDING" theme="warning" variant="light">待审核</t-tag>
+            <t-tag v-if="row.status === CONTRACT_STATUS.EXEC_PENDING" theme="warning" variant="light">待履行</t-tag>
+            <t-tag v-if="row.status === CONTRACT_STATUS.EXECUTING" theme="success" variant="light">履行中</t-tag>
+            <t-tag v-if="row.status === CONTRACT_STATUS.FINISH" theme="success" variant="light">已完成</t-tag>
+          </template>
+          <template #contractType="{ row }">
+            <p v-if="row.contractType === CONTRACT_TYPES.MAIN">审核失败</p>
+            <p v-if="row.contractType === CONTRACT_TYPES.SUB">待审核</p>
+            <p v-if="row.contractType === CONTRACT_TYPES.SUPPLEMENT">待履行</p>
+          </template>
+          <template #paymentType="{ row }">
+            <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.PAYMENT" class="payment-col">
+              付款
+              <trend class="dashboard-item-trend" type="up"/>
+            </p>
+            <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.RECEIPT" class="payment-col">
+              收款
+              <trend class="dashboard-item-trend" type="down"/>
+            </p>
+          </template>
+
+          <template #op="slotProps">
+            <a class="t-button-link" @click="handleClickDetail()">详情</a>
+            <a class="t-button-link" @click="handleClickDelete(slotProps)">删除</a>
           </template>
         </t-table>
       </div>
@@ -106,51 +109,49 @@ export default Vue.extend({
       selectedRowKeys: [1, 2],
       value: 'first',
       columns: [
+        {colKey: 'row-select', type: 'multiple', width: 64, fixed: 'left'},
         {
-          title: 'ID',
+          title: '集群名称',
           align: 'left',
-          width: 50,
-          ellipsis: true,
-          colKey: 'id',
-          fixed: 'left',
-        },
-        {
-          title: '名称',
-          align: 'left',
-          width: 200,
+          width: 120,
           ellipsis: true,
           colKey: 'name',
           fixed: 'left',
         },
         {
-          title: '类型',
-          width: 200,
-          ellipsis: true,
-          fixed: 'left',
-          colKey: 'type',
+          title: 'context名称',
+          colKey: 'name',
+          width: 120,
+          cell: {col: 'status'}
         },
         {
-          title: '状态',
-          colKey: 'status',
-          width: 100, cell:
-            {col: 'status'}
+          title: '地址',
+          width: 250,
+          ellipsis: true,
+          colKey: 'cluster.server',
         },
         {
-          title: '标签',
+          title: '合同类型',
           width: 200,
           ellipsis: true,
-          colKey: 'labels',
+          colKey: 'contractType',
         },
         {
-          title: '端点',
+          title: '合同收付类型',
           width: 200,
           ellipsis: true,
-          colKey: "targets"
+          colKey: 'paymentType',
+        },
+        {
+          title: '合同金额 (元)',
+          width: 200,
+          ellipsis: true,
+          colKey: 'amount',
         },
         {
           align: 'left',
           fixed: 'right',
-          width: 150,
+          width: 200,
           colKey: 'op',
           title: '操作',
         },
@@ -162,19 +163,17 @@ export default Vue.extend({
       rowClassName: (rowKey: string) => `${rowKey}-class`,
       // 与pagination对齐
       pagination: {
-        defaultPageSize: 10,
+        defaultPageSize: 20,
         total: 0,
         defaultCurrent: 1,
       },
       searchValue: '',
       confirmVisible: false,
       deleteIdx: -1,
-      deleteType: -1,
       formData: {
         name: "",
         type: ""
       },
-      typeList: []
     };
   },
   computed: {
@@ -190,12 +189,53 @@ export default Vue.extend({
     },
   },
   mounted() {
+    this.dataLoading = true;
+    this.$request
+      .get('/api/get-list')
+      .then((res) => {
+        if (res.code === 0) {
+          const {list = []} = res.data;
+          this.data = list;
+          this.pagination = {
+            ...this.pagination,
+            total: list.length,
+          };
+        }
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      })
+      .finally(() => {
+        this.dataLoading = false;
+      });
   },
   created() {
-    this.getTypeList()
     this.getList()
   },
   methods: {
+    getList() {
+      this.dataLoading = true;
+      this.$request
+        .get('/cluster/page', {
+          params: this.formData
+        }).then((res) => {
+        if (res.data.code === 200) {
+          //console.log(res.data.data)
+          this.data = res.data.rows;
+          //console.log(this.data)
+          this.pagination = {
+            ...this.pagination,
+            total: res.data.total
+          };
+        }
+      })
+        .catch((e: Error) => {
+          console.log(e);
+        })
+        .finally(() => {
+          this.dataLoading = false;
+        });
+    },
     getContainer() {
       return document.querySelector('.tdesign-starter-layout');
     },
@@ -208,30 +248,17 @@ export default Vue.extend({
     rehandleChange(changeParams, triggerAndData) {
       console.log('统一Change', changeParams, triggerAndData);
     },
-    handleClickDetail(row) {
+    handleClickDetail(rowData) {
       //this.$router.push('/detail/base');
-      //console.log("id", row)
-      const rowData = [
-        {
-          name: "id",
-          value: row.id,
-        },
-        {
-          name: '名称',
-          value: row.name,
-        }
-      ]
       this.$emit('transfer', "detail", rowData)
     },
     handleSetupContract() {
-      //this.$router.push('/monitor/add');
+      //this.$router.push('/form/base');
       this.$emit('transfer', "form")
     },
-    handleClickDelete(row: { rowIndex: any, type: any }) {
+    handleClickDelete(row: { rowIndex: any }) {
       this.deleteIdx = row.rowIndex;
-      this.deleteType = row.type;
       this.confirmVisible = true;
-      console.log("this", this.deleteType)
     },
     onConfirmDelete() {
       // 真实业务请发起请求
@@ -242,18 +269,7 @@ export default Vue.extend({
         this.selectedRowKeys.splice(selectedIdx, 1);
       }
       this.confirmVisible = false;
-      // 请求删除
-      this.$request.delete("/monitor/delete", {
-        params: {
-          index: this.deleteIdx,
-          type: this.deleteType
-        }
-      }).then(res => {
-        this.$message.success(res.data.msg);
-      }).catch(err => {
-
-      })
-
+      this.$message.success('删除成功');
       this.resetIdx();
     },
     onCancel() {
@@ -269,36 +285,6 @@ export default Vue.extend({
       console.log(this.formData);
       this.getList(this.formData);
     },
-    getTypeList() {
-      this.$request.get("/monitor/typeList").then(res => {
-        this.typeList = res.data.data
-      }).catch((err) => {
-
-      })
-    },
-    getList() {
-      this.dataLoading = true;
-      this.$request
-        .get('/monitor/list', {
-          params: this.formData
-        }).then((res) => {
-        if (res.data.code === 200) {
-          //console.log(res.data.data)
-          this.data = res.data.data;
-          //console.log(this.data)
-          this.pagination = {
-            ...this.pagination,
-            total: res.data.data.length,
-          };
-        }
-      })
-        .catch((e: Error) => {
-          console.log(e);
-        })
-        .finally(() => {
-          this.dataLoading = false;
-        });
-    }
   },
 });
 </script>

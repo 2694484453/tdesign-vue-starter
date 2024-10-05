@@ -16,9 +16,12 @@ import alertRouters from "@/router/modules/alert";
 import repoRouters from "@/router/modules/repo";
 // traefik
 import traefikRouters from "@/router/modules/traefik";
+// 集群
+import clusterRouters from "@/router/modules/cluster";
+
 const env = import.meta.env.MODE || 'development';
 // 存放动态路由
-export const asyncRouterList = (proxy[env].NAME  === "development" ? [...baseRouters, ...componentsRouters, ...othersRouters, ...userInfoRouters, ...domainRouters, ...pageRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters] : [...baseRouters, ...domainRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters]);
+export const asyncRouterList = (proxy[env].NAME === "development" ? [...baseRouters, ...componentsRouters, ...othersRouters, ...userInfoRouters, ...domainRouters, ...pageRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters, ...clusterRouters] : [...baseRouters, ...domainRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters, ...clusterRouters]);
 
 // 存放固定的路由
 const defaultRouterList = [
