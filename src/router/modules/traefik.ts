@@ -6,7 +6,7 @@ export default [
     path: '/traefik',
     name: 'traefik',
     component: Layout,
-    meta: {title: 'traefik管理(单机版)', icon: RectangleIcon},
+    meta: {title: 'traefik管理(主机版)', icon: RectangleIcon},
     children: [
       {
         path: 'dashboard',
