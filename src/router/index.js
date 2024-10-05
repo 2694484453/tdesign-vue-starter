@@ -18,10 +18,14 @@ import repoRouters from "@/router/modules/repo";
 import traefikRouters from "@/router/modules/traefik";
 // 集群
 import clusterRouters from "@/router/modules/cluster";
+// coredns
+import CorednsRouters from "@/router/modules/coredns";
+// caddy
+import CaddyRouters from "@/router/modules/caddy";
 
 const env = import.meta.env.MODE || 'development';
 // 存放动态路由
-export const asyncRouterList = (proxy[env].NAME === "development" ? [...baseRouters, ...componentsRouters, ...othersRouters, ...userInfoRouters, ...domainRouters, ...pageRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters, ...clusterRouters] : [...baseRouters, ...domainRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters, ...clusterRouters]);
+export const asyncRouterList = (proxy[env].NAME === "development" ? [...baseRouters, ...componentsRouters, ...othersRouters, ...userInfoRouters, ...domainRouters, ...pageRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters, ...clusterRouters, ...CaddyRouters, ...CorednsRouters] : [...baseRouters, ...domainRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters, ...clusterRouters,  ...CaddyRouters, ...CorednsRouters]);
 
 // 存放固定的路由
 const defaultRouterList = [
