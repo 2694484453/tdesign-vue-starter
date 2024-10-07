@@ -24,7 +24,7 @@ export default [
   },
   {
     path: '/traefik-cloud',
-    name: 'traefik',
+    name: 'traefik-cloud',
     component: Layout,
     meta: {title: 'traefik管理(云原生版)', icon: RectangleIcon},
     children: [
