@@ -1,4 +1,4 @@
-import {HeartIcon, PreciseMonitorIcon, RelativityIcon, RectangleIcon} from 'tdesign-icons-vue';
+import {RectangleIcon} from 'tdesign-icons-vue';
 import Layout from '@/layouts/index.vue';
 
 export default [
