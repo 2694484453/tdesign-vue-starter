@@ -11,16 +11,42 @@
         :style="{ marginBottom: '8px' }"
       >
         <t-row justify="space-between">
-          <div class="left-operation-container">
-            <t-button @click="handleSetupContract">添加集群</t-button>
-            <t-button variant="base" theme="default" :disabled="!selectedRowKeys.length">导出配置</t-button>
-            <p v-if="!!selectedRowKeys.length" class="selected-count">已选{{ selectedRowKeys.length }}项</p>
-          </div>
-          <t-input v-model="searchValue" class="search-input" placeholder="请输入你需要搜索的内容" clearable>
-            <template #suffix-icon>
-              <search-icon size="20px"/>
-            </template>
-          </t-input>
+          <t-col :span="3">
+            <t-form-item label="名称" name="name">
+              <t-input v-model="formData.name" :style="{ width: '200px' }" placeholder="请输入内容"/>
+            </t-form-item>
+          </t-col>
+          <t-col :span="3">
+            <t-form-item label="命名空间" name="namespace">
+                    <t-input v-model="formData.namespace" :style="{ width: '200px' }" placeholder="请输入内容"/>
+<!--                <t-select-->
+<!--                  v-model="formData.namespace"-->
+<!--                  :style="{ width: '200px' }"-->
+<!--                  placeholder="请选择类型"-->
+<!--                  class="demo-select-base"-->
+<!--                  clearable-->
+<!--                >-->
+<!--                  <t-option v-for="(item, index) in namespaceList" :key="index" :value="item" :label="item">-->
+<!--                    {{ item }}-->
+<!--                  </t-option>-->
+<!--                </t-select>-->
+            </t-form-item>
+          </t-col>
+          <t-col :span="3">
+            <t-form-item label="类型" name="type">
+              <t-select
+                v-model="formData.type"
+                :style="{ width: '200px' }"
+                placeholder="请选择类型"
+                class="demo-select-base"
+                clearable
+              >
+                <t-option v-for="(item, index) in typeList" :key="index" :value="item" :label="item">
+                  {{ item }}
+                </t-option>
+              </t-select>
+            </t-form-item>
+          </t-col>
           <t-col :span="2" class="operation-container">
             <t-button theme="primary" type="submit" :style="{ marginLeft: '8px' }"> 查询</t-button>
             <t-button type="reset" variant="base" theme="default"> 重置</t-button>
@@ -43,29 +69,9 @@
           :headerAffixedTop="true"
           :headerAffixProps="{ offsetTop: offsetTop, container: getContainer }"
         >
-          <template #status="{ row }">
-            <t-tag v-if="row.status === CONTRACT_STATUS.FAIL" theme="danger" variant="light">审核失败</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.AUDIT_PENDING" theme="warning" variant="light">待审核</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.EXEC_PENDING" theme="warning" variant="light">待履行</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.EXECUTING" theme="success" variant="light">履行中</t-tag>
-            <t-tag v-if="row.status === CONTRACT_STATUS.FINISH" theme="success" variant="light">已完成</t-tag>
+          <template #CreatedAt="{ row }">
+            <p>{{ new Date(row.CreatedAt).toLocaleString() }}</p>
           </template>
-          <template #contractType="{ row }">
-            <p v-if="row.contractType === CONTRACT_TYPES.MAIN">审核失败</p>
-            <p v-if="row.contractType === CONTRACT_TYPES.SUB">待审核</p>
-            <p v-if="row.contractType === CONTRACT_TYPES.SUPPLEMENT">待履行</p>
-          </template>
-          <template #paymentType="{ row }">
-            <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.PAYMENT" class="payment-col">
-              付款
-              <trend class="dashboard-item-trend" type="up"/>
-            </p>
-            <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.RECEIPT" class="payment-col">
-              收款
-              <trend class="dashboard-item-trend" type="down"/>
-            </p>
-          </template>
-
           <template #op="slotProps">
             <a class="t-button-link" @click="handleClickDetail()">详情</a>
             <a class="t-button-link" @click="handleClickDelete(slotProps)">删除</a>
@@ -74,7 +80,7 @@
       </div>
     </t-card>
     <t-dialog
-      header="确认删除当前所选合同？"
+      header="确认删除当前所选？"
       :body="confirmBody"
       :visible.sync="confirmVisible"
       @confirm="onConfirmDelete"
@@ -109,31 +115,65 @@ export default Vue.extend({
       selectedRowKeys: [1, 2],
       value: 'first',
       columns: [
-        {colKey: 'row-select', type: 'multiple', width: 64, fixed: 'left'},
         {
-          title: '集群名称',
+          title: 'ID',
           align: 'left',
-          width: 120,
+          width: 100,
           ellipsis: true,
-          colKey: 'name',
+          colKey: 'ID',
           fixed: 'left',
         },
         {
-          title: 'context名称',
-          colKey: 'name',
-          width: 120,
-          cell: {col: 'status'}
+          title: '名称',
+          align: 'left',
+          width: 230,
+          ellipsis: true,
+          colKey: 'Repository',
+          fixed: 'left',
         },
         {
-          title: '地址',
-          width: 250,
+          title: '版本',
+          width: 120,
           ellipsis: true,
-          colKey: 'cluster.server',
+          fixed: 'left',
+          colKey: 'Tag',
+        },
+        {
+          title: '大小',
+          width: 100,
+          ellipsis: true,
+          fixed: 'left',
+          colKey: 'Size',
+        },
+        {
+          title: 'Blob大小',
+          width: 100,
+          ellipsis: true,
+          fixed: 'left',
+          colKey: 'BlobSize',
+        },
+        {
+          title: '平台类型',
+          width: 150,
+          ellipsis: true,
+          fixed: 'left',
+          colKey: 'Platform',
+        },
+        {
+          title: '时长',
+          colKey: 'CreatedSince',
+          width: 150,
+        },
+        {
+          title: '创建时间',
+          width: 200,
+          ellipsis: true,
+          colKey: "CreatedAt"
         },
         {
           align: 'left',
           fixed: 'right',
-          width: 200,
+          width: 150,
           colKey: 'op',
           title: '操作',
         },
@@ -145,24 +185,28 @@ export default Vue.extend({
       rowClassName: (rowKey: string) => `${rowKey}-class`,
       // 与pagination对齐
       pagination: {
-        defaultPageSize: 20,
+        defaultPageSize: 10,
         total: 0,
         defaultCurrent: 1,
       },
       searchValue: '',
       confirmVisible: false,
       deleteIdx: -1,
+      deleteType: -1,
       formData: {
         name: "",
-        type: ""
+        type: "",
+        namespace: ""
       },
+      typeList: [],
+      namespaceList: []
     };
   },
   computed: {
     confirmBody() {
       if (this.deleteIdx > -1) {
         const {name} = this.data?.[this.deleteIdx];
-        return `删除后，${name}的所有合同信息将被清空，且无法恢复`;
+        return `删除后，${name}的所有信息将被清空，且无法恢复`;
       }
       return '';
     },
@@ -171,52 +215,17 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.dataLoading = true;
-    this.$request
-      .get('/api/get-list')
-      .then((res) => {
-        if (res.code === 0) {
-          const {list = []} = res.data;
-          this.data = list;
-          this.pagination = {
-            ...this.pagination,
-            total: list.length,
-          };
-        }
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      })
-      .finally(() => {
-        this.dataLoading = false;
-      });
   },
   created() {
-    this.getList()
+    this.getTypeList();
+    this.getList();
+    this.getNamespaceList();
   },
   methods: {
-    getList() {
-      this.dataLoading = true;
-      this.$request
-        .get('/cluster/page', {
-          params: this.formData
-        }).then((res) => {
-        if (res.data.code === 200) {
-          //console.log(res.data.data)
-          this.data = res.data.rows;
-          //console.log(this.data)
-          this.pagination = {
-            ...this.pagination,
-            total: res.data.total
-          };
-        }
+    getNamespaceList() {
+      this.$request.get("/imageRepo/namespaceList").then(res => {
+        this.namespaceList = res.data.data;
       })
-        .catch((e: Error) => {
-          console.log(e);
-        })
-        .finally(() => {
-          this.dataLoading = false;
-        });
     },
     getContainer() {
       return document.querySelector('.tdesign-starter-layout');
@@ -230,17 +239,17 @@ export default Vue.extend({
     rehandleChange(changeParams, triggerAndData) {
       console.log('统一Change', changeParams, triggerAndData);
     },
-    handleClickDetail(rowData) {
-      //this.$router.push('/detail/base');
-      this.$emit('transfer', "detail", rowData)
+    handleClickDetail() {
+      this.$router.push('/detail/base');
     },
     handleSetupContract() {
-      //this.$router.push('/form/base');
-      this.$emit('transfer', "form")
+      this.$router.push('/monitor/add');
     },
-    handleClickDelete(row: { rowIndex: any }) {
+    handleClickDelete(row: { rowIndex: any, type: any }) {
       this.deleteIdx = row.rowIndex;
+      this.deleteType = row.type;
       this.confirmVisible = true;
+      console.log("this", this.deleteType)
     },
     onConfirmDelete() {
       // 真实业务请发起请求
@@ -251,7 +260,17 @@ export default Vue.extend({
         this.selectedRowKeys.splice(selectedIdx, 1);
       }
       this.confirmVisible = false;
-      this.$message.success('删除成功');
+      // 请求删除
+      this.$request.delete("/monitor/delete", {
+        params: {
+          index: this.deleteIdx,
+          type: this.deleteType
+        }
+      }).then(res => {
+        this.$message.success(res.data.msg);
+      }).catch(err => {
+
+      })
       this.resetIdx();
     },
     onCancel() {
@@ -262,11 +281,38 @@ export default Vue.extend({
     },
     onReset(data) {
       console.log(data);
+      this.getList();
     },
     onSubmit(data) {
       console.log(this.formData);
       this.getList(this.formData);
     },
+    getTypeList() {
+      this.$request.get("/imageRepo/typeList").then(res => {
+        this.typeList = res.data.data
+      }).catch((err) => {
+
+      })
+    },
+    getList() {
+      this.dataLoading = true;
+      this.$request
+        .get('/imageRepo/page', {
+          params: this.formData
+        }).then((res) => {
+        if (res.data.code === 200) {
+          //console.log(res.data.data)
+          this.data = res.data.rows;
+          this.pagination.total = res.data.total;
+        }
+      })
+        .catch((e: Error) => {
+          console.log(e);
+        })
+        .finally(() => {
+          this.dataLoading = false;
+        });
+    }
   },
 });
 </script>

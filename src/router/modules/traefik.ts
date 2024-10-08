@@ -12,7 +12,7 @@ export default [
         path: 'dashboard',
         name: 'DashboardBase',
         component: () => import('@/pages/traefik/index.vue'),
-        meta: {title: '监控面板'},
+        meta: {title: '服务面板'},
       },
       {
         path: "add",
@@ -32,7 +32,7 @@ export default [
         path: 'dashboard',
         name: 'DashboardBase',
         component: () => import('@/pages/traefik-cloud/index.vue'),
-        meta: {title: '监控面板'},
+        meta: {title: '服务面板'},
       },
       {
         path: "add",
