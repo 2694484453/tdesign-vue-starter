@@ -12,7 +12,7 @@
       >
         <t-row justify="space-between">
           <div class="left-operation-container">
-            <t-button @click="handleSetupContract"> 新建</t-button>
+            <t-button @click="handleSetupContract">新建</t-button>
             <t-button variant="base" theme="default" :disabled="!selectedRowKeys.length"> 导出</t-button>
             <p v-if="!!selectedRowKeys.length" class="selected-count">已选{{ selectedRowKeys.length }}项</p>
           </div>
@@ -66,8 +66,8 @@
             </p>
           </template>
           <template #op="slotProps">
-            <a class="t-button-link" @click="handleClickDetail()">详情</a>
-            <a class="t-button-link" @click="handleClickDelete(slotProps)">删除</a>
+            <a class="t-button-link" @click="handleClickDetail(slotProps.row)">详情</a>
+            <a class="t-button-link" @click="handleClickDelete(slotProps.row)">删除</a>
           </template>
         </t-table>
       </div>
@@ -124,11 +124,11 @@ export default Vue.extend({
           colKey: 'path',
         },
         {
-          title: '大小',
+          title: '文件大小',
           width: 100,
           ellipsis: true,
           fixed: 'left',
-          colKey: 'size',
+          colKey: 'length',
         },
         {
           title: '修改时间',
@@ -198,11 +198,13 @@ export default Vue.extend({
     rehandleChange(changeParams, triggerAndData) {
       console.log('统一Change', changeParams, triggerAndData);
     },
-    handleClickDetail() {
-      this.$router.push('/detail/base');
+    handleClickDetail(row) {
+      //this.$router.push('/detail/base');
+      this.$emit('transfer', "detail", row)
     },
     handleSetupContract() {
-      this.$router.push('/monitor/add');
+      //this.$router.push('/monitor/add');
+      this.$emit('transfer', "form")
     },
     handleClickDelete(row: { rowIndex: any,type: any }) {
       this.deleteIdx = row.rowIndex;

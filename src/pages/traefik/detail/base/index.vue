@@ -13,32 +13,36 @@
             <i v-if="item.type && item.type.key === 'contractStatus'" />
             {{ item.value }}
           </span>
+          {{row}}
         </t-descriptions-item>
       </t-descriptions>
     </t-card>
 
     <t-card title="构建记录" class="container-base-margin-top" :bordered="false">
+      {{row}}
       <t-steps class="detail-base-info-steps" layout="vertical" theme="dot" :current="1">
         <t-step-item title="执行打包" content="这里是提示文字" />
         <t-step-item title="修改values.yaml" content="这里是提示文字" />
         <t-step-item title="新建chart" content="2020-12-01 15:00:00 管理员-李川操作" />
       </t-steps>
     </t-card>
+
   </div>
 </template>
+
 <script>
 import { prefix } from '@/config/global';
-import model from '@/service/service-detail-base';
 
 export default {
   name: 'DetailBase',
+  props: ["row"],
   data() {
     return {
       prefix,
       baseInfoData: [
         {
           name: 'chart名称',
-          value: 'spring-boot-demo',
+          value: "xx",
         },
         {
           name: '状态',
@@ -83,7 +87,19 @@ export default {
       ],
     };
   },
-  methods: {},
+  created() {
+    this.info()
+    console.log("this.",this.row)
+  },
+  methods: {
+    info() {
+      this.$request.get("/traefik/info?fileName="+this.row.fileName).then(res => {
+        this.formData = res.data.data
+      }).catch((err) => {
+
+      })
+    }
+  },
 };
 </script>
 <style lang="less" scoped>

@@ -117,6 +117,9 @@ export default {
       typeList: []
     };
   },
+  created() {
+    this.getTypeList()
+  },
   methods: {
     // 用于格式化接口响应值，error 会被用于上传失败的提示文字；url 表示文件/图片地址
     formatResponse(res) {
@@ -149,11 +152,16 @@ export default {
       }).catch((err) => {
 
       })
+    },
+    info() {
+      this.$request.get("/traefik/info?fileName=").then(res => {
+        this.formData = res.data.data
+      }).catch((err) => {
+
+      })
     }
   },
-  created() {
-    this.getTypeList()
-  }
+
 };
 </script>
 <style lang="less" scoped>

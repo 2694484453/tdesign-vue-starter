@@ -11,13 +11,13 @@ export default [
       {
         path: 'dashboard',
         name: 'DashboardBase',
-        component: () => import('@/pages/traefik/index.vue'),
+        component: () => import('@/pages/traefik/index-dashboard.vue'),
         meta: {title: '服务面板'},
       },
       {
-        path: "add",
+        path: "list",
         name: 'AddBase',
-        component: () => import("@/pages/traefik/list/index.vue"),
+        component: () => import("@/pages/traefik/index.vue"),
         meta: {title: '配置列表'},
       }
     ],
@@ -35,7 +35,7 @@ export default [
         meta: {title: '服务面板'},
       },
       {
-        path: "add",
+        path: "list",
         name: 'AddBase',
         component: () => import("@/pages/traefik-cloud/list/index.vue"),
         meta: {title: '配置列表'},

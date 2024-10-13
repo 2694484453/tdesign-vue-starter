@@ -118,57 +118,25 @@ export default Vue.extend({
         {
           title: 'ID',
           align: 'left',
-          width: 100,
+          width: 60,
           ellipsis: true,
-          colKey: 'ID',
+          colKey: 'id',
           fixed: 'left',
         },
         {
           title: '名称',
           align: 'left',
-          width: 230,
-          ellipsis: true,
-          colKey: 'Repository',
-          fixed: 'left',
-        },
-        {
-          title: '版本',
-          width: 120,
-          ellipsis: true,
-          fixed: 'left',
-          colKey: 'Tag',
-        },
-        {
-          title: '大小',
           width: 100,
           ellipsis: true,
+          colKey: 'key',
           fixed: 'left',
-          colKey: 'Size',
         },
         {
-          title: 'Blob大小',
-          width: 100,
+          title: '内容',
+          width: 250,
           ellipsis: true,
           fixed: 'left',
-          colKey: 'BlobSize',
-        },
-        {
-          title: '平台类型',
-          width: 150,
-          ellipsis: true,
-          fixed: 'left',
-          colKey: 'Platform',
-        },
-        {
-          title: '时长',
-          colKey: 'CreatedSince',
-          width: 150,
-        },
-        {
-          title: '创建时间',
-          width: 200,
-          ellipsis: true,
-          colKey: "CreatedAt"
+          colKey: 'value',
         },
         {
           align: 'left',
@@ -297,7 +265,7 @@ export default Vue.extend({
     getList() {
       this.dataLoading = true;
       this.$request
-        .get('/imageRepo/page', {
+        .get('/coredns/page', {
           params: this.formData
         }).then((res) => {
         if (res.data.code === 200) {

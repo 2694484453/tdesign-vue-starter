@@ -11,7 +11,7 @@ export default [
       // {
       //   path: 'dashboard',
       //   name: 'DashboardBase',
-      //   component: () => import('@/pages/cluster/list/index.vue'),
+      //   component: () => import('@/pages/cluster/list/index-dashboard.vue'),
       //   meta: {title: '监控面板'},
       // },
       {
