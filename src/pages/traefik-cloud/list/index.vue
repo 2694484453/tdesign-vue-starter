@@ -65,6 +65,15 @@
               <trend class="dashboard-item-trend" type="down"/>
             </p>
           </template>
+          <template #spec.rules="{ row }">
+            <p class="payment-col">
+              {{row.host}}
+            </p>
+            <p v-if="row.paymentType === CONTRACT_PAYMENT_TYPES.RECEIPT" class="payment-col">
+              收款
+              <trend class="dashboard-item-trend" type="down"/>
+            </p>
+          </template>
           <template #op="slotProps">
             <a class="t-button-link" @click="handleClickDetail()">详情</a>
             <a class="t-button-link" @click="handleClickDelete(slotProps)">删除</a>
@@ -111,30 +120,37 @@ export default Vue.extend({
         {
           title: '名称',
           align: 'left',
-          width: 200,
-          ellipsis: true,
-          colKey: 'name',
-          fixed: 'left',
-        },
-        {
-          title: '路径',
-          width: 220,
-          ellipsis: true,
-          fixed: 'left',
-          colKey: 'path',
-        },
-        {
-          title: '大小',
           width: 100,
           ellipsis: true,
+          colKey: 'metadata.name',
           fixed: 'left',
-          colKey: 'size',
         },
         {
-          title: '修改时间',
+          title: '命名空间',
+          width: 60,
+          ellipsis: true,
+          fixed: 'left',
+          colKey: 'metadata.namespace',
+        },
+        {
+          title: 'ingress类',
+          width: 60,
+          ellipsis: true,
+          fixed: 'left',
+          colKey: 'spec.ingressClassName',
+        },
+        {
+          title: '域名',
+          width: 120,
+          ellipsis: true,
+          fixed: 'left',
+          colKey: 'spec.rules',
+        },
+        {
+          title: '创建时间',
           width: 200,
           ellipsis: true,
-          colKey: "lastModified"
+          colKey: "metadata.creationTimestamp"
         },
         {
           align: 'left',
@@ -256,7 +272,7 @@ export default Vue.extend({
     getList() {
       this.dataLoading = true;
       this.$request
-        .get('/traefik/page',{
+        .get('/traefikCloud/page',{
           params: this.formData
         }).then((res) => {
         if (res.data.code === 200) {
