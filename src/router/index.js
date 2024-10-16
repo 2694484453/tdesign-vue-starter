@@ -19,13 +19,14 @@ import traefikRouters from "@/router/modules/traefik";
 // 集群
 import clusterRouters from "@/router/modules/cluster";
 // coredns
-import CorednsRouters from "@/router/modules/coredns";
+import corednsRouters from "@/router/modules/coredns";
 // caddy
-import CaddyRouters from "@/router/modules/caddy";
-
+import caddyRouters from "@/router/modules/caddy";
+// backup
+import backupRouters from "@/router/modules/backup";
 const env = import.meta.env.MODE || 'development';
 // 存放动态路由
-export const asyncRouterList = (proxy[env].NAME === "development" ? [...baseRouters, ...componentsRouters, ...othersRouters, ...userInfoRouters, ...domainRouters, ...pageRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters, ...clusterRouters, ...CaddyRouters, ...CorednsRouters] : [...baseRouters, ...domainRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters, ...clusterRouters,  ...CaddyRouters, ...CorednsRouters]);
+export const asyncRouterList = (proxy[env].NAME === "development" ? [...baseRouters, ...componentsRouters, ...othersRouters, ...userInfoRouters, ...domainRouters, ...pageRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters, ...clusterRouters, ...caddyRouters, ...corednsRouters, ...backupRouters] : [...baseRouters, ...domainRouters, ...monitorRouters, ...repoRouters, ...traefikRouters, ...alertRouters, ...clusterRouters,  ...caddyRouters, ...corednsRouters, ...backupRouters]);
 
 // 存放固定的路由
 const defaultRouterList = [
