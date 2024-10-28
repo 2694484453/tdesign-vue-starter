@@ -10,13 +10,13 @@ export default [
       {
         path: 'dashboard',
         name: 'DashboardBase',
-        component: () => import('@/pages/coredns/index.vue'),
+        component: () => import('@/pages/backup/index.vue'),
         meta: {title: '监控面板'},
       },
       {
         path: "list",
         name: 'ListBase',
-        component: () => import("@/pages/coredns/list/index.vue"),
+        component: () => import("@/pages/backup/list/index.vue"),
         meta: {title: '配置列表'},
       }
     ],
