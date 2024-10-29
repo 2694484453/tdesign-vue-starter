@@ -4,7 +4,9 @@ import baseRouters from './modules/base';
 // 个人
 import userInfoRouters from "@/router/modules/userinfo";
 import componentsRouters from './modules/components';
+// 其他
 import othersRouters from './modules/others';
+// 构建
 import pageRouters from './modules/build';
 // 域名
 import domainRouters from './modules/domain';

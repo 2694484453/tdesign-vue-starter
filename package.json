@@ -12,9 +12,7 @@
     "build": "vite build --mode release",
     "build:site": "vite build --mode site",
     "site:preview": "npm run build && cp -r dist _site",
-    "preview": "vite preview",
-    "test": "echo \"no test specified,work in process\"",
-    "test:coverage": "echo \"no test:coverage specified,work in process\""
+    "preview": "vite preview"
   },
   "dependencies": {
     "axios": "^1.1.3",
