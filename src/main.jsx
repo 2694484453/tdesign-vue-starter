@@ -33,6 +33,10 @@ VueRouter.prototype.replace = function replace(location) {
   return originReplace.call(this, location).catch((err) => err);
 };
 
+Vue.prototype.$http.http.setConfig({
+    originalData: true
+})
+
 Vue.config.productionTip = false;
 sync(store, router);
 new Vue({
