@@ -3,7 +3,8 @@ export default {
     // 开发环境接口请求
     NAME: "development",
     //API: 'http://localhost:9099',
-    API: 'http://ecs.gpg123.vip:9099',
+    //API: 'http://ecs.gpg123.vip:9099',
+    API: 'https://my-server.gpg123.vip',
     PATH: "",
     // 开发环境 cdn 路径
     CDN: '',
