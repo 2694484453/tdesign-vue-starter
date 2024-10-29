@@ -15,7 +15,7 @@ const CODE = {
 const instance = axios.create({
   baseURL: API_HOST + proxy[env].PATH,
   timeout: 3000,
-  withCredentials: true,
+  withCredentials: false,
 });
 
 // eslint-disable-next-line

@@ -15,12 +15,17 @@ import '@/style/index.less';
 import './permission';
 import store from './store';
 
+import cors from "cors";
+
 Vue.use(VueRouter);
 Vue.use(TDesign);
 Vue.use(VueClipboard);
 Vue.use(VueCookies);
 Vue.component('t-page-header');
-
+// Vue.use(cors({
+//     origin: 'https://my-server.gpg123.vip',
+//     credentials: true
+// }))
 Vue.prototype.$request = axiosInstance;
 
 const originPush = VueRouter.prototype.push;
@@ -32,10 +37,6 @@ const originReplace = VueRouter.prototype.replace;
 VueRouter.prototype.replace = function replace(location) {
   return originReplace.call(this, location).catch((err) => err);
 };
-
-Vue.prototype.$http.http.setConfig({
-    originalData: true
-})
 
 Vue.config.productionTip = false;
 sync(store, router);

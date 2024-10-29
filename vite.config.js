@@ -41,6 +41,7 @@ export default ({mode}) => {
       host: '0.0.0.0',
       port: 3000,
       cors: true,
+      open: true,
       proxy: {
         "/dev-api": {
           // 用于开发环境下的转发请求
